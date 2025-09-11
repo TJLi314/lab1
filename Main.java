@@ -20,5 +20,9 @@ public class Main {
         TokenType t = TokenType.ADD;
         int code = t.getCode();            
         System.out.println(code);
+
+        for (char c = '0'; c <= '9'; c++) {
+            System.out.println(c);
+        }
     }
 }

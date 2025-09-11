@@ -3,11 +3,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class TransitionTable {
-    private static final int NUM_STATES = 38;
+    private static final int NUM_STATES = 41;
     private static final int ALPHABET_SIZE = 128;
 
     public static final int[][] transitionTable = new int[NUM_STATES][ALPHABET_SIZE];
-    public static final HashSet<Integer> acceptingStates = new HashSet<>(Arrays.asList(5, 7, 11, 12, 18, 24, 27, 33, 35, 36, 37));
+    public static final HashSet<Integer> acceptingStates = new HashSet<>(Arrays.asList(5, 7, 11, 12, 18, 24, 27, 33, 35, 36, 37, 38));
 
     static {
         // Initialize all transitions to -1 (The error state)
@@ -27,6 +27,12 @@ public class TransitionTable {
         transitionTable[0]['='] = 34;
         transitionTable[0][','] = 36;
         transitionTable[0]['\n'] = 37;
+        transitionTable[0]['/'] = 39;
+        for (char c = '0'; c <= '9'; c++) {
+            transitionTable[0][c] = 38;
+            transitionTable[38][c] = 38;
+            transitionTable[13][c] = 38;
+        }
 
         transitionTable[1]['t'] = 2;
         transitionTable[1]['u'] = 6;
@@ -67,5 +73,10 @@ public class TransitionTable {
         transitionTable[32]['t'] = 33;  
 
         transitionTable[34]['>'] = 35;        
+        transitionTable[39]['/'] = 40;
+        for (int i = 0; i < ALPHABET_SIZE; i++) {
+            transitionTable[40][i] = 40;
+        }
+        transitionTable[40]['\n'] = 37;
     }
 }

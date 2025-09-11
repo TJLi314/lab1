@@ -16,8 +16,8 @@ public enum TokenType {
     COMMA(36),
     INTO(35),
     EOL(37),
-    REG(1),
-    CONST(2),
+    CONST(38),
+    REG(39),
     EOF(99);
 
     private final int code;

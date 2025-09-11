@@ -16,24 +16,28 @@ public class Scanner {
     }
 
     public Token getNextToken() throws IOException {
+        int prevState = 0;
         int state = 0;
         StringBuilder token = new StringBuilder();
         int ch;
 
         while ((ch = getNextChar()) != -1) {
-            token.append((char) ch);
             state = TransitionTable.transitionTable[state][ch];
 
             if (state == -1) {
-                // Error state
+
+                // error state, check if previous state was accepting
+                if (TransitionTable.acceptingStates.contains(prevState)) {
+                    return new Token(TokenType.fromCode(prevState), 
+                    prevState == 38 || prevState == 39 ? Integer.parseInt(token.substring(1)) : null);
+                }
+
                 System.err.println("Lexical error at character: " + (char) ch);
+
                 return null;
             }
-
-            if (TransitionTable.acceptingStates.contains(state)) {
-                // Accepting state
-                return new Token(TokenType.fromCode(state), 
-                    state == 12 ? Integer.parseInt(token.substring(1)) : null);
+            if (ch != ' ') {
+                token.append((char) ch);
             }
         }
 
