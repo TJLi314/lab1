@@ -1,0 +1,12 @@
+store
+sub
+load
+load
+lshift
+rshift
+mult
+add
+nop
+output
+=>
+,
