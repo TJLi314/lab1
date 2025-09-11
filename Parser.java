@@ -1,8 +1,7 @@
 public class Parser {
-    
-    public static void main(String[] args) {
+    public static InterRep parse(String filename) {
         try {
-            Scanner scanner = new Scanner("test.txt");
+            Scanner scanner = new Scanner(filename);
             InterRep head = new InterRep();
             InterRep current = head;
 
@@ -15,27 +14,27 @@ public class Parser {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("Syntax error: Expected REGISTER after MEMOP");
-                            return;
+                            return null;
                         } 
                         int memSR1 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
                             System.err.println("Syntax error: Expected INTO after REGISTER");
-                            return;
+                            return null;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("Syntax error: Expected REGISTER after INTO");
-                            return;
+                            return null;
                         } 
                         int memSR3 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.EOL) {
                             System.err.println("Syntax error: Expected EOL after REGISTER");
-                            return;
+                            return null;
                         }
 
                         InterRep newMemOpNode = new InterRep(
@@ -53,27 +52,27 @@ public class Parser {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.CONST) {
                             System.err.println("Syntax error: Expected CONST after LOADI");
-                            return;
+                            return null;
                         } 
                         int loadiConst = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
                             System.err.println("Syntax error: Expected INTO after CONST");
-                            return;
+                            return null;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("Syntax error: Expected REGISTER after INTO");
-                            return;
+                            return null;
                         } 
                         int loadiSR3 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.EOL) {
                             System.err.println("Syntax error: Expected EOL after REGISTER");
-                            return;
+                            return null;
                         }
 
                         InterRep loadiNode = new InterRep(
@@ -93,40 +92,40 @@ public class Parser {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("Syntax error: Expected REGISTER after ARITHOP");
-                            return;
+                            return null;
                         } 
                         int arithSR1 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.COMMA) {
                             System.err.println("Syntax error: Expected COMMA after REGISTER");
-                            return;
+                            return null;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("Syntax error: Expected REGISTER after COMMA");
-                            return;
+                            return null;
                         } 
                         int arithSR2 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
                             System.err.println("Syntax error: Expected INTO after REGISTER");
-                            return;
+                            return null;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("Syntax error: Expected REGISTER after INTO");
-                            return;
+                            return null;
                         }
                         int arithSR3 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.EOL) {
                             System.err.println("Syntax error: Expected EOL after REGISTER");
-                            return;
+                            return null;
                         }
 
                         InterRep arithNode = new InterRep(
@@ -144,14 +143,14 @@ public class Parser {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.CONST) {
                             System.err.println("Syntax error: Expected CONSTANT after OUTPUT");
-                            return;
+                            return null;
                         } 
                         int outputConst = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.EOL) {
                             System.err.println("Syntax error: Expected EOL after CONSTANT");
-                            return;
+                            return null;
                         }
 
                         InterRep outputNode = new InterRep(
@@ -169,7 +168,7 @@ public class Parser {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.EOL) {
                             System.err.println("Syntax error: Expected EOL after NOP");
-                            return;
+                            return null;
                         }
 
                         InterRep nopNode = new InterRep(
@@ -187,11 +186,11 @@ public class Parser {
                         // Ignore EOL tokens
                     }
                     case EOF -> {
-                        token = null; // End the while loop
+                        break; // End the while loop
                     }
                     default -> {
                         System.err.println("Syntax error: Unexpected token " + token.getType());
-                        return;
+                        return null;
                     }
                 }
 
@@ -199,8 +198,13 @@ public class Parser {
             }
 
             scanner.close();
+            head.getNext().setPrev(null); // Detach head
+            return head.getNext(); // Return the first meaningful InterRep node
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 }

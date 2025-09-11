@@ -1,8 +1,8 @@
 public class InterRep {
-    private TokenType opCode;
-    private InterRepBlock arg1;
-    private InterRepBlock arg2;
-    private InterRepBlock arg3;
+    private final TokenType opCode;
+    private final InterRepBlock arg1;
+    private final InterRepBlock arg2;
+    private final InterRepBlock arg3;
     private InterRep prev;
     private InterRep next;
 
