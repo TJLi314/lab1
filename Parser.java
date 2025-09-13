@@ -6,7 +6,8 @@ public class Parser {
             InterRep current = head;
 
             Token token = scanner.getNextToken();
-            while (token != null) {
+            while (token.getType() != TokenType.EOF) {
+                System.out.println("Token: " + token);
                 switch (token.getType()) {
                     case LOAD, STORE -> {
                         TokenType memOp = token.getType();

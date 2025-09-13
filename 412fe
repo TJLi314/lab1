@@ -1,0 +1,9 @@
+#!/bin/bash
+javac Main.java Scanner.java TransitionTable.java TokenType.java Token.java InterRep.java InterRepBlock.java Parser.java
+
+if [ $? -ne 0 ]; then
+  echo "Compilation failed." >&2
+  exit 1
+fi
+
+java Main "$@"

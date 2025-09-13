@@ -60,14 +60,14 @@ public class InterRepBlock {
     @Override
     public String toString() {
         if (VR != null && PR != null && NU != null) {
-            return "InterRepBlock{" +
+            return "{" +
                     "SR=" + SR +
                     ", VR=" + VR +
                     ", PR=" + PR +
                     ", NU=" + NU +
                     '}';
         } else {
-            return "InterRepBlock{" +
+            return "{" +
                     "SR=" + SR +
                     '}';
         }
