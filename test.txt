@@ -1,7 +1,7 @@
 store
 sub
 load
-load
+loadI
 lshift
 rshift
 mult
@@ -9,4 +9,5 @@ add
 nop
 output
 =>
-,
+,l
+//asdfasdfasdf
