@@ -7,7 +7,7 @@ public class Token {
         this.value = null;
     }
 
-    public Token(TokenType type, int value) {
+    public Token(TokenType type, Integer value) {
         this.type = type;
         this.value = value;
     }

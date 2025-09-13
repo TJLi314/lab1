@@ -28,6 +28,7 @@ public class TransitionTable {
         transitionTable[0][','] = 36;
         transitionTable[0]['\n'] = 37;
         transitionTable[0]['/'] = 39;
+        transitionTable[0][' '] = 0;
         for (char c = '0'; c <= '9'; c++) {
             transitionTable[0][c] = 38;
             transitionTable[38][c] = 38;
@@ -48,7 +49,7 @@ public class TransitionTable {
 
         transitionTable[9]['a'] = 10;
         transitionTable[10]['d'] = 11;
-        transitionTable[11]['l'] = 12;
+        transitionTable[11]['I'] = 12;
 
         transitionTable[13]['s'] = 14;
         transitionTable[14]['h'] = 15;

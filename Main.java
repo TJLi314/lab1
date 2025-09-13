@@ -1,28 +1,17 @@
 public class Main {
     public static void main(String[] args) {
         try {
-            Scanner myScanner = new Scanner("test.txt");
+            Scanner myScanner = new Scanner("test_inputs/t2.i");
 
-            for (int i = 0; i < 22; i++) {
-                System.out.print(myScanner.getNextToken());
+            Token token = myScanner.getNextToken();
+            while (token.getType() != TokenType.EOF) {
+                System.out.println(token);
+                token = myScanner.getNextToken();
             }
-            System.out.println();
-
+            System.out.println(token); // Print EOF token
             myScanner.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        System.out.println(TransitionTable.transitionTable[0]['s']);
-        System.out.println(TransitionTable.acceptingStates);
-        System.out.println(TokenType.fromCode(11));
-
-        TokenType t = TokenType.ADD;
-        int code = t.getCode();            
-        System.out.println(code);
-
-        for (char c = '0'; c <= '9'; c++) {
-            System.out.println(c);
         }
     }
 }
