@@ -29,6 +29,8 @@ public class TransitionTable {
         transitionTable[0]['\n'] = 37;
         transitionTable[0]['/'] = 39;
         transitionTable[0][' '] = 0;
+        transitionTable[0]['\t'] = 0;
+        transitionTable[0]['\r'] = 0;
         for (char c = '0'; c <= '9'; c++) {
             transitionTable[0][c] = 38;
             transitionTable[38][c] = 38;

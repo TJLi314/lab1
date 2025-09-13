@@ -198,8 +198,8 @@ public class Parser {
             }
 
             scanner.close();
-            head.getNext().setPrev(null); // Detach head
-            return head.getNext(); // Return the first meaningful InterRep node
+            head.getNext().setPrev(null); 
+            return head.getNext();
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -30,6 +30,7 @@ public class Scanner {
 
         while ((ch = getNextChar()) != -1) {
             state = TransitionTable.transitionTable[state][ch];
+            // System.out.println("Char: '" + (char) ch + "' (" + ch + "), State: " + state);
             if (state == -1) {
                 // error state, check if previous state was accepting
                 if (TransitionTable.acceptingStates.contains(prevState)) {
@@ -89,7 +90,7 @@ public class Scanner {
                 TokenType.fromCode(prevState),
                 prevState == 38 || prevState == 39 ? Integer.parseInt(curInt) : null
             );
-        } else if (!curInt.isEmpty() || firstLetter != '\0') {
+        } else if (state != 0) {
             // EOF reached but last token incomplete
             System.err.println("Lexical error at EOF: incomplete token starting with '" + firstLetter + "'");
         }
