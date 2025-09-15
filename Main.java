@@ -45,16 +45,33 @@ public class Main {
     }
 
     private static void printHelp() {
-        System.out.println("Usage: 412fe [option] <filename>");
-        System.out.println("Options:");
-        System.out.println("  -h          Print this help message");
-        System.out.println("  -s <name>   Scan file <name> and print tokens");
-        System.out.println("  -p <name>   Parse file <name> and report success or errors (default mode)");
-        System.out.println("  -r <name>   Parse file <name> and print intermediate representation");
+        System.out.println("Command Syntax:");
+        System.out.println("\t./412fe [flags] filename\n");
+
+        System.out.println("Required Arguments:");
+        System.out.println("\tfilename is the pathname (absolute or relative) to the input file\n");
+
+        System.out.println("Optional flags:");
+        System.out.println("\t-h \tprints this message\n");
+
+        System.out.println("At most one of the following three flags:");
+        System.out.println("\t-s \tprints tokens in token stream");
+        System.out.println("\t-p \tinvokes parser and reports on success or failure");
+        System.out.println("\t-r \tprints human readable version of parser's IR");
+        System.out.println("If none is specified, the default action is '-p'");
     }
 
     private static void runScanMode(String filename) {
-        
+        try {
+            Scanner scanner = new Scanner(filename);
+            Token token = scanner.getNextToken();
+            while (token.getType() != TokenType.EOF) {
+                System.out.println("Token: " + token);
+                token = scanner.getNextToken();
+            }
+        } catch (Exception e) {
+            System.err.println("Error scanning file: " + e.getMessage());
+        }
     }
 
     private static void runParseMode(String filename) {

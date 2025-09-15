@@ -25,6 +25,7 @@ public class Scanner {
         int prevState = 0;
         int state = 0;
         String curInt = "";
+        String curString = "";
         char firstLetter = '\0';
         int ch;
 
@@ -54,23 +55,23 @@ public class Scanner {
                     );
 
                     // System.out.println("Current integer: " + curInt);
-
-                    // reset state machine
+                    return returnToken;
+                } else {
+                    System.err.println("ERROR: " + curString + (char) ch + " is not a valid word.");
                     state = 0;
                     prevState = 0;
                     curInt = "";
+                    curString = "";
                     firstLetter = '\0';
-
-                    return returnToken;
-                } else {
-                    System.err.println("Lexical error at character: " + (char) ch);
-                    return null;
+                    continue;
                 }
             }
 
             if (ch >= '0' && ch <= '9') {
                 curInt += (char) ch;
             }
+
+            if ((char) ch != ' ') curString += (char) ch;
 
             firstLetter = firstLetter == '\0' || firstLetter == ' ' ? (char) ch : firstLetter;
             prevState = state;
