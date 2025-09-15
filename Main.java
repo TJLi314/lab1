@@ -8,39 +8,38 @@ public class Main {
         String flag = args[0];
 
         switch (flag) {
-            case "-h":
-                printHelp();
-                break;
+            case "-h" -> printHelp();
 
-            case "-s":
+            case "-s" -> {
                 if (args.length < 2) {
                     System.err.println("Error: Missing filename for -s option.");
                     printHelp();
                 } else {
                     runScanMode(args[1]);
                 }
-                break;
+            }
 
-            case "-p":
+            case "-p" -> {
                 if (args.length < 2) {
                     runParseMode(null);
                 } else {
                     runParseMode(args[1]);
                 }
-                break;
+            }
 
-            case "-r":
+            case "-r" -> {
                 if (args.length < 2) {
                     System.err.println("Error: Missing filename for -r option.");
                     printHelp();
                 } else {
                     runIRMode(args[1]);
                 }
-                break;
+            }
 
-            default:
+            default -> {
                 System.err.printf("Error: Unknown option '%s'%n", flag);
                 printHelp();
+            }
         }
     }
 
@@ -65,10 +64,12 @@ public class Main {
         try {
             Scanner scanner = new Scanner(filename);
             Token token = scanner.getNextToken();
-            while (token.getType() != TokenType.EOF) {
-                System.out.println("Token: " + token);
+            while (token.getType() != TokenType.ENDFILE) {
+                System.out.println(token);
                 token = scanner.getNextToken();
             }
+            System.out.println(token); // Print EOF token
+            scanner.close();
         } catch (Exception e) {
             System.err.println("Error scanning file: " + e.getMessage());
         }

@@ -3,6 +3,7 @@ import java.io.*;
 public class Scanner {
     private final BufferedReader reader;
     private int lookaheadChar = -1; 
+    private int lineNumber = 1;
 
     public Scanner(String filename) throws IOException {
         this.reader = new BufferedReader(new FileReader(filename));
@@ -49,21 +50,31 @@ public class Scanner {
                             prevState = 39;
                     }
 
+
                     Token returnToken = new Token(
                         TokenType.fromCode(prevState), 
-                        prevState == 38 || prevState == 39 ? Integer.parseInt(curInt) : null
+                        prevState == 38 || prevState == 39 ? Integer.parseInt(curInt) : null,
+                        this.lineNumber
                     );
+
+                    if (returnToken.getType() == TokenType.NEWLINE) {
+                        this.lineNumber++;
+                    }
 
                     // System.out.println("Current integer: " + curInt);
                     return returnToken;
                 } else {
-                    System.err.println("ERROR: " + curString + (char) ch + " is not a valid word.");
-                    state = 0;
-                    prevState = 0;
-                    curInt = "";
-                    curString = "";
-                    firstLetter = '\0';
-                    continue;
+                    char currentChar = (char) ch;
+                    String errorString = currentChar != '\n' 
+                                        && currentChar != '\t' 
+                                        && currentChar != '\r'  
+                                        ? curString + (char) ch 
+                                        : curString;
+
+                    System.err.println("ERROR " + Integer.toString(this.lineNumber) + ": \t\"" + errorString + "\" is not a valid word.");
+                    this.lookaheadChar = -1;
+                    this.reader.readLine();
+                    return new Token(TokenType.NEWLINE, null, this.lineNumber++);
                 }
             }
 
@@ -87,18 +98,26 @@ public class Scanner {
                 if (firstLetter == 'r') prevState = 39;
             }
 
-            return new Token(
+            Token returnToken = new Token(
                 TokenType.fromCode(prevState),
-                prevState == 38 || prevState == 39 ? Integer.parseInt(curInt) : null
+                prevState == 38 || prevState == 39 ? Integer.parseInt(curInt) : null,
+                this.lineNumber
             );
+
+            if (returnToken.getType() == TokenType.NEWLINE) {
+                this.lineNumber++;
+            }
+
+            return returnToken;
         } else if (state != 0) {
             // EOF reached but last token incomplete
-            System.err.println("Lexical error at EOF: incomplete token starting with '" + firstLetter + "'");
+            System.err.println("ERROR " + Integer.toString(this.lineNumber) + ": \t\"" + curString + "\" is not a valid word.");
         }
 
         return new Token(
-            TokenType.EOF,
-            null
+            TokenType.ENDFILE,
+            null,
+            this.lineNumber
         );
     }
 }

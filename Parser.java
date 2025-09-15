@@ -6,7 +6,7 @@ public class Parser {
             InterRep current = head;
 
             Token token = scanner.getNextToken();
-            while (token.getType() != TokenType.EOF) {
+            while (token.getType() != TokenType.ENDFILE) {
                 System.out.println("Token: " + token);
                 switch (token.getType()) {
                     case LOAD, STORE -> {
@@ -33,7 +33,7 @@ public class Parser {
                         int memSR3 = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.EOL) {
+                        if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after REGISTER");
                             return null;
                         }
@@ -71,7 +71,7 @@ public class Parser {
                         int loadiSR3 = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.EOL) {
+                        if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after REGISTER");
                             return null;
                         }
@@ -124,7 +124,7 @@ public class Parser {
                         int arithSR3 = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.EOL) {
+                        if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after REGISTER");
                             return null;
                         }
@@ -149,7 +149,7 @@ public class Parser {
                         int outputConst = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.EOL) {
+                        if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after CONSTANT");
                             return null;
                         }
@@ -167,7 +167,7 @@ public class Parser {
                     }
                     case NOP -> {
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.EOL) {
+                        if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after NOP");
                             return null;
                         }
@@ -183,10 +183,10 @@ public class Parser {
                         nopNode.setPrev(current);
                         current = nopNode;
                     }
-                    case EOL -> {
+                    case NEWLINE -> {
                         // Ignore EOL tokens
                     }
-                    case EOF -> {
+                    case ENDFILE -> {
                         break; // End the while loop
                     }
                     default -> {
