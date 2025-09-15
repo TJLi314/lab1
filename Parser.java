@@ -112,7 +112,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing first source register in ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing first source register in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -121,7 +121,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.COMMA) {
-                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing comma in ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing comma in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -129,7 +129,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing second source register in ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing second source register in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -138,7 +138,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
-                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -146,7 +146,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -155,7 +155,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.NEWLINE) {
-                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -176,7 +176,7 @@ public class Parser {
                     case OUTPUT -> {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.CONST) {
-                            System.err.println("Syntax error: Expected CONSTANT after OUTPUT");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing constant after output");
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -185,7 +185,7 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.NEWLINE) {
-                            System.err.println("Syntax error: Expected EOL after CONSTANT");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL after output");
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -206,7 +206,7 @@ public class Parser {
                     case NOP -> {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.NEWLINE) {
-                            System.err.println("Syntax error: Expected EOL after NOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL after NOP");
                             parseSuccessful = false;
                             // scanner.skipLine();
                             break;
@@ -231,7 +231,7 @@ public class Parser {
                         break; // End the while loop
                     }
                     default -> { // This should never happen
-                        System.err.println("Syntax error: Unexpected token " + token.getType());
+                        System.err.println("ERROR " + token.getLineNumber() + ": \tUnexpected token " + token.getType());
                         parseSuccessful = false;
                         // scanner.skipLine();
                         break;

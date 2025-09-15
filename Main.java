@@ -96,10 +96,14 @@ public class Main {
         try {
             ParserResult result = Parser.parse(filename);
             if (result != null) {
-                InterRep current = result.getHead();
-                while (current != null) {
-                    System.out.println(current);
-                    current = current.getNext();
+                if (result.isSuccess()) {
+                    InterRep current = result.getHead();
+                    while (current != null) {
+                        System.out.println(current);
+                        current = current.getNext();
+                    }
+                } else {
+                    System.out.println("\nDue to syntax errors, run terminates.");
                 }
             } else {
                 System.out.println("Parsing failed.");
