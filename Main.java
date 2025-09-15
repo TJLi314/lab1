@@ -1,46 +1,71 @@
+import java.io.File;
+
 public class Main {
     public static void main(String[] args) {
-        if (args.length == 0) {
-            runParseMode("test_inputs/t2.i");
+        boolean hasH = false;
+        boolean hasR = false;
+        boolean hasP = false;
+        boolean hasS = false;
+        String filename = null;
+
+        for (String arg : args) {
+            switch (arg) {
+                case "-h" -> hasH = true;
+                case "-r" -> hasR = true;
+                case "-p" -> hasP = true;
+                case "-s" -> hasS = true;
+                default -> {
+                    if (filename == null) {
+                        filename = arg;
+                    } else {
+                        System.err.printf("ERROR: Command line argument %s not recognized\n\n", arg);
+                        printHelp();
+                        return;
+                    }
+                }
+            }
+        }
+
+        int flagCount = (hasH ? 1 : 0) + (hasR ? 1 : 0) + (hasP ? 1 : 0) + (hasS ? 1 : 0);
+        if (flagCount > 1) {
+            System.err.println("ERROR: Multiple command-line flags found. Using highest priority. Try '-h' for information on command-line syntax.\n");
+        }
+
+        if (hasH) {
+            printHelp();
+            return;
+        } else if (hasR) {
+            if (!checkFile(filename)) return;
+            runIRMode(filename);
+            return;
+        } else if (hasP) {
+            if (!checkFile(filename)) return;
+            runParseMode(filename);
+            return;
+        } else if (hasS) {
+            if (!checkFile(filename)) return;
+            runScanMode(filename);
             return;
         }
 
-        String flag = args[0];
+        // Default to -p if no flags, but filename is given
+        if (!checkFile(filename)) return;
+        runParseMode(filename);
+    }
 
-        switch (flag) {
-            case "-h" -> printHelp();
-
-            case "-s" -> {
-                if (args.length < 2) {
-                    System.err.println("Error: Missing filename for -s option.");
-                    printHelp();
-                } else {
-                    runScanMode(args[1]);
-                }
-            }
-
-            case "-p" -> {
-                if (args.length < 2) {
-                    runParseMode(null);
-                } else {
-                    runParseMode(args[1]);
-                }
-            }
-
-            case "-r" -> {
-                if (args.length < 2) {
-                    System.err.println("Error: Missing filename for -r option.");
-                    printHelp();
-                } else {
-                    runIRMode(args[1]);
-                }
-            }
-
-            default -> {
-                System.err.printf("Error: Unknown option '%s'%n", flag);
-                printHelp();
-            }
+    private static boolean checkFile(String filename) {
+        if (filename == null) {
+            System.err.println("ERROR: Missing filename.");
+            printHelp();
+            return false;
         }
+        File file = new File(filename);
+        if (!file.exists() || !file.isFile()) {
+            System.err.printf("ERROR: Could not open file '%s' as the input file.\n\n", filename);
+            printHelp();
+            return false;
+        }
+        return true;
     }
 
     private static void printHelp() {

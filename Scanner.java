@@ -38,7 +38,8 @@ public class Scanner {
 
         while ((ch = getNextChar()) != -1) {
             state = TransitionTable.transitionTable[state][ch];
-            // System.out.println("Char: '" + (char) ch + "' (" + ch + "), State: " + state);
+            
+            // System.out.println("Char: '" + ch + "' (" + (char) ch + "), State: " + state);
             if (state == -1) {
                 // error state, check if previous state was accepting
                 if (TransitionTable.acceptingStates.contains(prevState)) {
@@ -82,7 +83,7 @@ public class Scanner {
                     if (currentChar != '\n') {
                         this.reader.readLine();
                     }
-                    return new Token(TokenType.NEWLINE, null, this.lineNumber++);
+                    return new Token(TokenType.NEWLINE, null, this.lineNumber++, false);
                 }
             }
 
@@ -92,7 +93,8 @@ public class Scanner {
 
             if ((char) ch != ' ') curString += (char) ch;
 
-            firstLetter = firstLetter == '\0' || firstLetter == ' ' ? (char) ch : firstLetter;
+            firstLetter = firstLetter == '\0' || firstLetter == ' ' || firstLetter == '\t' || firstLetter == '\r' ? (char) ch : firstLetter;
+            // System.out.println("Current first letter: " + firstLetter + "( " + (int) firstLetter +" )");    
             prevState = state;
         }
 

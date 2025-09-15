@@ -2,17 +2,27 @@ public class Token {
     private final TokenType type;
     private final Integer value;
     private final int lineNumber;
+    private final boolean isSuccess;
 
     public Token(TokenType type, int lineNumber) {
         this.type = type;
         this.value = null;
         this.lineNumber = lineNumber;
+        this.isSuccess = true;
     }
 
     public Token(TokenType type, Integer value, int lineNumber) {
         this.type = type;
         this.value = value;
         this.lineNumber = lineNumber;
+        this.isSuccess = true;
+    }
+
+    public Token(TokenType type, Integer value, int lineNumber, boolean isSuccess) {
+        this.type = type;
+        this.value = value;
+        this.lineNumber = lineNumber;
+        this.isSuccess = isSuccess;
     }
 
     public TokenType getType() {
@@ -25,6 +35,10 @@ public class Token {
 
     public int getLineNumber() {
         return this.lineNumber;
+    }
+
+    public boolean getSuccess() {
+        return this.isSuccess;
     }
 
     @Override

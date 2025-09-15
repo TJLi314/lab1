@@ -9,12 +9,14 @@ public class Parser {
 
             Token token = scanner.getNextToken();
             while (token.getType() != TokenType.ENDFILE) {
+                parseSuccessful = parseSuccessful && token.getSuccess();
                 // System.out.println("Token: " + token);
                 switch (token.getType()) {
                     case LOAD, STORE -> {
                         TokenType memOp = token.getType();
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing source register in load or store");
                             parseSuccessful = false;
@@ -24,6 +26,7 @@ public class Parser {
                         int memSR1 = token.getValue();
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.INTO) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in load or store");
                             parseSuccessful = false;
@@ -32,6 +35,7 @@ public class Parser {
                         }
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in load or store");
                             parseSuccessful = false;
@@ -41,7 +45,8 @@ public class Parser {
                         int memSR3 = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.NEWLINE) {
+                        parseSuccessful = parseSuccessful && token.getSuccess();
+                        if (token.getType() != TokenType.NEWLINE && token.getType() != TokenType.ENDFILE) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in load or store");
                             parseSuccessful = false;
                             // scanner.skipLine();
@@ -71,6 +76,7 @@ public class Parser {
                         int loadiConst = token.getValue();
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.INTO) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in loadI");
                             parseSuccessful = false;
@@ -79,6 +85,7 @@ public class Parser {
                         }
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in loadI");
                             parseSuccessful = false;
@@ -88,7 +95,8 @@ public class Parser {
                         int loadiSR3 = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.NEWLINE) {
+                        parseSuccessful = parseSuccessful && token.getSuccess();
+                        if (token.getType() != TokenType.NEWLINE && token.getType() != TokenType.ENDFILE) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in loadI");
                             parseSuccessful = false;
                             // scanner.skipLine();
@@ -111,6 +119,7 @@ public class Parser {
                         TokenType arithOp = token.getType();
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing first source register in " + arithOp.getLexeme());
                             parseSuccessful = false;
@@ -120,6 +129,7 @@ public class Parser {
                         int arithSR1 = token.getValue();
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.COMMA) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing comma in " + arithOp.getLexeme());
                             parseSuccessful = false;
@@ -128,6 +138,7 @@ public class Parser {
                         }
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing second source register in " + arithOp.getLexeme());
                             parseSuccessful = false;
@@ -137,6 +148,7 @@ public class Parser {
                         int arithSR2 = token.getValue();
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.INTO) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in " + arithOp.getLexeme());
                             parseSuccessful = false;
@@ -145,6 +157,7 @@ public class Parser {
                         }
 
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.REG) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in " + arithOp.getLexeme());
                             parseSuccessful = false;
@@ -154,7 +167,8 @@ public class Parser {
                         int arithSR3 = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.NEWLINE) {
+                        parseSuccessful = parseSuccessful && token.getSuccess();
+                        if (token.getType() != TokenType.NEWLINE && token.getType() != TokenType.ENDFILE) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in " + arithOp.getLexeme());
                             parseSuccessful = false;
                             // scanner.skipLine();
@@ -175,6 +189,7 @@ public class Parser {
                     }
                     case OUTPUT -> {
                         token = scanner.getNextToken();
+                        parseSuccessful = parseSuccessful && token.getSuccess();
                         if (token.getType() != TokenType.CONST) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing constant after output");
                             parseSuccessful = false;
@@ -184,7 +199,8 @@ public class Parser {
                         int outputConst = token.getValue();
 
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.NEWLINE) {
+                        parseSuccessful = parseSuccessful && token.getSuccess();
+                        if (token.getType() != TokenType.NEWLINE && token.getType() != TokenType.ENDFILE) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL after output");
                             parseSuccessful = false;
                             // scanner.skipLine();
@@ -205,7 +221,8 @@ public class Parser {
                     }
                     case NOP -> {
                         token = scanner.getNextToken();
-                        if (token.getType() != TokenType.NEWLINE) {
+                        parseSuccessful = parseSuccessful && token.getSuccess();
+                        if (token.getType() != TokenType.NEWLINE && token.getType() != TokenType.ENDFILE) {
                             System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL after NOP");
                             parseSuccessful = false;
                             // scanner.skipLine();
@@ -231,10 +248,10 @@ public class Parser {
                         break; // End the while loop
                     }
                     default -> { // This should never happen
-                        System.err.println("ERROR " + token.getLineNumber() + ": \tUnexpected token " + token.getType());
-                        parseSuccessful = false;
-                        // scanner.skipLine();
-                        break;
+                        // System.err.println("ERROR " + token.getLineNumber() + ": \tUnexpected token " + token.getType());
+                        // parseSuccessful = false;
+                        // // scanner.skipLine();
+                        // break;
                     }
                 }
 
@@ -242,8 +259,9 @@ public class Parser {
             }
 
             scanner.close();
-
-            head.getNext().setPrev(null); 
+            if (head.getNext() != null) {
+                head.getNext().setPrev(null);
+            } 
             return new ParserResult(head.getNext(), parseSuccessful, opCount);
         } catch (Exception e) {
             e.printStackTrace();
