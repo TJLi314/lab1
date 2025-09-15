@@ -16,35 +16,35 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("Syntax error: Expected REGISTER after MEMOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing source register in load or store");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int memSR1 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
-                            System.err.println("Syntax error: Expected INTO after REGISTER");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in load or store");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("Syntax error: Expected REGISTER after INTO");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in load or store");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int memSR3 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.NEWLINE) {
-                            System.err.println("Syntax error: Expected EOL after REGISTER");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in load or store");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
@@ -63,35 +63,35 @@ public class Parser {
                     case LOADI -> {
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.CONST) {
-                            System.err.println("Syntax error: Expected CONST after LOADI");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing const in loadI");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int loadiConst = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
-                            System.err.println("Syntax error: Expected INTO after CONST");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in loadI");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("Syntax error: Expected REGISTER after INTO");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in loadI");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int loadiSR3 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.NEWLINE) {
-                            System.err.println("Syntax error: Expected EOL after REGISTER");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in loadI");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
@@ -112,52 +112,52 @@ public class Parser {
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("Syntax error: Expected REGISTER after ARITHOP");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing first source register in ARITHOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int arithSR1 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.COMMA) {
-                            System.err.println("Syntax error: Expected COMMA after REGISTER");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing comma in ARITHOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("Syntax error: Expected REGISTER after COMMA");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing second source register in ARITHOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int arithSR2 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.INTO) {
-                            System.err.println("Syntax error: Expected INTO after REGISTER");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing '=>' in ARITHOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.REG) {
-                            System.err.println("Syntax error: Expected REGISTER after INTO");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing target register in ARITHOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
                         int arithSR3 = token.getValue();
 
                         token = scanner.getNextToken();
                         if (token.getType() != TokenType.NEWLINE) {
-                            System.err.println("Syntax error: Expected EOL after REGISTER");
+                            System.err.println("ERROR " + token.getLineNumber() + ": \tMissing EOL in ARITHOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
@@ -178,7 +178,7 @@ public class Parser {
                         if (token.getType() != TokenType.CONST) {
                             System.err.println("Syntax error: Expected CONSTANT after OUTPUT");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         } 
                         int outputConst = token.getValue();
@@ -187,7 +187,7 @@ public class Parser {
                         if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after CONSTANT");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
@@ -208,7 +208,7 @@ public class Parser {
                         if (token.getType() != TokenType.NEWLINE) {
                             System.err.println("Syntax error: Expected EOL after NOP");
                             parseSuccessful = false;
-                            scanner.skipLine();
+                            // scanner.skipLine();
                             break;
                         }
 
@@ -233,7 +233,7 @@ public class Parser {
                     default -> { // This should never happen
                         System.err.println("Syntax error: Unexpected token " + token.getType());
                         parseSuccessful = false;
-                        scanner.skipLine();
+                        // scanner.skipLine();
                         break;
                     }
                 }
