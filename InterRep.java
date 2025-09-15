@@ -58,11 +58,10 @@ public class InterRep {
 
     @Override
     public String toString() {
-        return "InterRep{" +
-                "opCode=" + opCode +
-                ", arg1=" + arg1 +
-                ", arg2=" + arg2 +
-                ", arg3=" + arg3 +
-                '}';
+        if (this.opCode == TokenType.LOADI || this.opCode == TokenType.OUTPUT) {
+            return opCode.getLexeme() + "\t[ val " + arg1.getSR() + " ], " + arg2 +  ", " + arg3;
+        };
+
+        return opCode.getLexeme() + "\t" + arg1 + ", " + arg2 +  ", " + arg3;
     }
 }

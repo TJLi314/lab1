@@ -18,6 +18,12 @@ public class Scanner {
         return reader.read();
     }
 
+    public void skipLine() throws IOException {
+        this.lookaheadChar = -1;
+        this.reader.readLine();
+        this.lineNumber++;
+    }
+
     public void close() throws IOException {
         this.reader.close();
     }
@@ -73,7 +79,9 @@ public class Scanner {
 
                     System.err.println("ERROR " + Integer.toString(this.lineNumber) + ": \t\"" + errorString + "\" is not a valid word.");
                     this.lookaheadChar = -1;
-                    this.reader.readLine();
+                    if (currentChar != '\n') {
+                        this.reader.readLine();
+                    }
                     return new Token(TokenType.NEWLINE, null, this.lineNumber++);
                 }
             }

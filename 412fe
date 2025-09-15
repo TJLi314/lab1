@@ -1,5 +1,5 @@
 #!/bin/bash
-javac Main.java Scanner.java TransitionTable.java TokenType.java Token.java InterRep.java InterRepBlock.java Parser.java
+javac Main.java Scanner.java TransitionTable.java TokenType.java Token.java InterRep.java InterRepBlock.java Parser.java ParserResult.java
 
 if [ $? -ne 0 ]; then
   echo "Compilation failed." >&2

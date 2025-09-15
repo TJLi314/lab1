@@ -77,13 +77,12 @@ public class Main {
 
     private static void runParseMode(String filename) {
         try {
-            InterRep ir = Parser.parse(filename);
-            if (ir != null) {
-                System.out.println("Parsed Intermediate Representation:");
-                InterRep current = ir;
-                while (current != null) {
-                    System.out.println(current);
-                    current = current.getNext();
+            ParserResult result = Parser.parse(filename);
+            if (result != null) {
+                if (result.isSuccess()) {
+                    System.out.println("Parsing succeeded. Processed " + result.getOpCount() + " operations.");
+                } else {
+                    System.out.println("Parse found errors.");
                 }
             } else {
                 System.out.println("Parsing failed.");
@@ -94,6 +93,19 @@ public class Main {
     }
 
     private static void runIRMode(String filename) {
-        
+        try {
+            ParserResult result = Parser.parse(filename);
+            if (result != null) {
+                InterRep current = result.getHead();
+                while (current != null) {
+                    System.out.println(current);
+                    current = current.getNext();
+                }
+            } else {
+                System.out.println("Parsing failed.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsing file: " + e.getMessage());
+        }
     }
 }
